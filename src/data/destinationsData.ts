@@ -112,3 +112,4 @@ export const DESTINATIONS: DestinationInfo[] = [
     featuredHotelId: 'malabar-lagoon-kerala',
   },
 ];
+

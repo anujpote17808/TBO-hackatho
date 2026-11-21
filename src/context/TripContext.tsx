@@ -76,3 +76,4 @@ export function useTrips() {
   if (!ctx) throw new Error('useTrips must be used inside TripProvider');
   return ctx;
 }
+

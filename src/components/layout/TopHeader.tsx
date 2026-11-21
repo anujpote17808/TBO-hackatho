@@ -30,7 +30,7 @@ export function TopHeader({
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#14B8D4]/15 border border-[#14B8D4]/35 text-[#14B8D4] text-[10px] font-bold tracking-wider uppercase">
                 <Sparkles className="w-3 h-3" aria-hidden="true" />
-                TRAVELIQ AI
+                TRIPMATCH AI
               </span>
               <span className="text-slate-500 hidden sm:inline">•</span>
               <h1 className="font-display font-bold text-sm sm:text-base text-white truncate">

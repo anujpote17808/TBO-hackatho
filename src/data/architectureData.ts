@@ -65,7 +65,7 @@ export const ARCHITECTURE_LAYERS: ArchitectureLayer[] = [
     inputs: 'Candidate matched pairs',
     outputs: 'Attribute diff matrix & merge/preserve verdict',
     details:
-      'Ensures TravelIQ never falsely merges non-refundable Room Only listings with Breakfast-Included King rooms or ticket-only vs guided tours.',
+      'Ensures TripMatch AI never falsely merges non-refundable Room Only listings with Breakfast-Included King rooms or ticket-only vs guided tours.',
   },
   {
     step: 7,
@@ -96,7 +96,7 @@ export const ARCHITECTURE_LAYERS: ArchitectureLayer[] = [
     status: 'Implemented in Prototype',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts'],
     inputs: 'Canonical products, reconciled offers & rankings',
-    outputs: 'Interactive TravelIQ AI OS & Presentation Mode',
+    outputs: 'Interactive TripMatch AI OS & Presentation Mode',
     details:
       'Delivers clean, deduplicated, comparable, and intelligently ranked travel inventory to B2B travel agents and partner channels.',
   },

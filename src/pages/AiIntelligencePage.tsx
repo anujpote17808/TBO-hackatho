@@ -99,7 +99,7 @@ const AI_WORKFLOW_STAGES = [
     code: 'UNIFIED TRAVEL INVENTORY',
     status: 'Implemented Live',
     inputs: 'Deduplicated, attribute-verified, ranked catalog',
-    outputs: 'Consumer TravelIQ Marketplace + B2B Intelligence OS',
+    outputs: 'Consumer TripMatch AI Marketplace + B2B Intelligence OS',
     summary:
       'Powers both the MakeMyTrip/Booking.com-grade travel discovery storefront and the enterprise operations & quality console.',
     link: '/experiences',
@@ -332,3 +332,4 @@ export function AiIntelligencePage() {
     </AiIntelligenceShell>
   );
 }
+

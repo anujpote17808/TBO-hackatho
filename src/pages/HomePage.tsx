@@ -67,7 +67,7 @@ export function HomePage() {
             >
               <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full tiq-glass-dark border border-white/20 text-xs font-semibold text-[#94F0FA]">
                 <Sparkles className="w-3.5 h-3.5 text-[#19C5D8]" aria-hidden="true" />
-                <span>TravelIQ AI · Unified Multi-Supplier Travel Discovery</span>
+                <span>TripMatch AI · Unified Multi-Supplier Travel Discovery</span>
                 <span className="text-white/40">|</span>
                 <span className="text-white/85">Illustrative Demo Data</span>
               </div>
@@ -371,7 +371,7 @@ export function HomePage() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.15em] text-[#19C5D8]">
                 <Cpu className="w-4 h-4" aria-hidden="true" />
-                Powered by TravelIQ AI Inventory Intelligence OS
+                Powered by TripMatch AI Inventory Intelligence OS
               </span>
               <h2 className="font-display font-extrabold text-2xl sm:text-4xl mt-2 leading-tight">
                 Consumer-Grade Discovery Backed by Enterprise AI Inventory Intelligence
@@ -438,7 +438,7 @@ export function HomePage() {
                 Unify Entities, Preserve Differences
               </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                TravelIQ AI consolidates supplier catalogs, resolves shared landmarks and properties, preserves bookable policy differences, and ranks offers by holistic commercial value.
+                TripMatch AI consolidates supplier catalogs, resolves shared landmarks and properties, preserves bookable policy differences, and ranks offers by holistic commercial value.
               </p>
             </div>
 
@@ -483,3 +483,4 @@ export function HomePage() {
     </div>
   );
 }
+

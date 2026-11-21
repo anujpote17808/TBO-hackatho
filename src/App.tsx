@@ -3,7 +3,7 @@ import { TripProvider } from './context/TripContext';
 import { MarketplaceShell } from './components/layout/MarketplaceShell';
 import { AiIntelligenceShell } from './components/layout/AiIntelligenceShell';
 
-// Consumer Travel Marketplace Pages (TravelIQ AI 2.0)
+// Consumer Travel Marketplace Pages (TripMatch AI 2.0)
 import { HomePage } from './pages/HomePage';
 import { DestinationsPage } from './pages/DestinationsPage';
 import { SightseeingSearchPage } from './pages/SightseeingSearchPage';
@@ -97,7 +97,7 @@ export function App() {
               path="/ai-intelligence/architecture"
               element={
                 <AiIntelligenceShell
-                  title="9-Layer TravelIQ Technical Architecture"
+                  title="9-Layer TripMatch AI Technical Architecture"
                   subtitle="Interactive pipeline blueprint clearly separating implemented prototype capabilities from proposed global production scale."
                   badge="System Architecture"
                 >

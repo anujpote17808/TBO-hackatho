@@ -62,7 +62,7 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
       {/* Sticky Clean White Marketplace Navigation Bar */}
       <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-[0_1px_12px_rgba(16,28,53,0.05)]">
         <div className="max-w-[1380px] mx-auto px-4 sm:px-6 h-[70px] flex items-center justify-between gap-4">
-          {/* Left: TravelIQ AI Brand */}
+          {/* Left: TripMatch AI Brand */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#101C35] via-[#1677FF] to-[#19C5D8] flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
               <Globe className="w-5 h-5 text-white" aria-hidden="true" />
@@ -70,7 +70,7 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
             <div className="leading-tight">
               <div className="flex items-center gap-1.5">
                 <span className="font-display font-extrabold text-[17px] tracking-tight text-[#101C35]">
-                  TravelIQ
+                  TripMatch
                 </span>
                 <span className="px-1.5 py-0.5 rounded-md bg-[#1677FF]/10 text-[#1677FF] text-[10px] font-extrabold uppercase tracking-wider">
                   AI
@@ -264,7 +264,7 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
               </div>
               <div>
                 <span className="font-display font-extrabold text-base text-white">
-                  TravelIQ AI
+                  TripMatch AI
                 </span>
                 <span className="block text-[10px] uppercase tracking-widest text-[#19C5D8]">
                   Unified Travel Inventory OS
@@ -326,7 +326,7 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
         </div>
 
         <div className="border-t border-white/10 py-4 px-4 sm:px-6 text-center text-[11px] text-slate-400">
-          TravelIQ AI · TBO Open Innovation Hackathon Prototype · All prices, supplier catalogs, guest ratings, and evaluation figures are illustrative synthetic demonstration data.
+          TripMatch AI · TBO Open Innovation Hackathon Prototype · All prices, supplier catalogs, guest ratings, and evaluation figures are illustrative synthetic demonstration data.
         </div>
       </footer>
 
@@ -423,7 +423,7 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
       <ModalDialog
         open={authModalMode !== null}
         onClose={() => setAuthModalMode(null)}
-        title={authModalMode === 'signin' ? 'Sign In to TravelIQ AI' : 'Get Started with TravelIQ AI'}
+        title={authModalMode === 'signin' ? 'Sign In to TripMatch AI' : 'Get Started with TripMatch AI'}
         subtitle="Demo workspace access — explore consumer booking discovery and B2B AI Inventory Intelligence."
       >
         {authSuccess ? (
@@ -455,7 +455,7 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
                 required
                 value={authEmail}
                 onChange={(e) => setAuthEmail(e.target.value)}
-                placeholder="agent@traveliq.ai"
+                placeholder="agent@tripmatch.ai"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#1677FF]"
               />
             </div>
@@ -481,3 +481,4 @@ export function MarketplaceShell({ children }: MarketplaceShellProps) {
     </div>
   );
 }
+

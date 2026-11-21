@@ -35,7 +35,7 @@ export function HotelsPage() {
         <div className="flex items-start gap-2.5 text-xs text-[#182338] max-w-3xl">
           <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" aria-hidden="true" />
           <p>
-            <strong>Attribute-First Room Equivalence:</strong> TravelIQ never assumes two rooms are equivalent just because their names look similar (e.g., &ldquo;Deluxe King Room&rdquo; vs &ldquo;Deluxe Room&rdquo;). Every bed type, occupancy, meal plan, and cancellation policy is explicitly compared.
+            <strong>Attribute-First Room Equivalence:</strong> TripMatch AI never assumes two rooms are equivalent just because their names look similar (e.g., &ldquo;Deluxe King Room&rdquo; vs &ldquo;Deluxe Room&rdquo;). Every bed type, occupancy, meal plan, and cancellation policy is explicitly compared.
           </p>
         </div>
         <DemoBadge label="Synthetic Hotel Demo Feeds" />

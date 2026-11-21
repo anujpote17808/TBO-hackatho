@@ -65,7 +65,7 @@ export const NAV_ITEMS: NavItemConfig[] = [
     label: 'System Architecture',
     shortLabel: 'Architecture',
     title: '9-Layer Technical Architecture',
-    subtitle: 'End-to-end TravelIQ AI pipeline distinguishing implemented prototype modules from proposed production scale.',
+    subtitle: 'End-to-end TripMatch AI pipeline distinguishing implemented prototype modules from proposed production scale.',
   },
   {
     id: 'impact',

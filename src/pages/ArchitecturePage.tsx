@@ -24,7 +24,7 @@ export function ArchitecturePage() {
             System Blueprint · Click Any Layer to Inspect
           </span>
           <h2 className="font-display font-extrabold text-xl mt-0.5">
-            9-Layer TravelIQ AI Inventory Intelligence Architecture
+            9-Layer TripMatch AI Inventory Intelligence Architecture
           </h2>
           <p className="text-xs text-slate-300 mt-1 max-w-3xl">
             Transparently separates <strong>Implemented Prototype Capabilities</strong> running live in this dashboard from <strong>Proposed Production Architecture</strong> designed for global multi-supplier scale.

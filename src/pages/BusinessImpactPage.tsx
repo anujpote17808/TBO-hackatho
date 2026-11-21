@@ -71,7 +71,7 @@ export function BusinessImpactPage() {
               Consolidate Without Flattening Value
             </h2>
             <p className="text-xs text-slate-600 leading-relaxed">
-              TravelIQ AI resolves shared entities across suppliers, surfaces structured diffs side by side, separates cheapest from best-value offers, and applies explainable multi-factor ranking.
+              TripMatch AI resolves shared entities across suppliers, surfaces structured diffs side by side, separates cheapest from best-value offers, and applies explainable multi-factor ranking.
             </p>
           </div>
 
@@ -120,7 +120,7 @@ export function BusinessImpactPage() {
             <div className="flex items-center justify-between gap-2 mb-4">
               <div>
                 <h2 className="font-display font-bold text-sm text-[#101C35]">
-                  Illustrative Catalog Quality: Baseline vs TravelIQ AI (%)
+                  Illustrative Catalog Quality: Baseline vs TripMatch AI (%)
                 </h2>
                 <p className="text-xs text-[#748198]">
                   Lower duplicate clutter alongside stronger policy transparency and room accuracy.
@@ -137,7 +137,7 @@ export function BusinessImpactPage() {
                   <Tooltip />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
                   <Bar dataKey="baseline" name="Fragmented Baseline (%)" fill="#94A3B8" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="travelIq" name="TravelIQ AI Illustrative (%)" fill="#1677FF" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="travelIq" name="TripMatch AI Illustrative (%)" fill="#1677FF" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -58,7 +58,7 @@ export function Sidebar({
           <div className="leading-tight">
             <div className="flex items-center gap-1.5">
               <span className="font-display font-extrabold text-[15px] tracking-tight text-white">
-                TravelIQ
+                TripMatch
               </span>
               <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-[#14B8D4]/20 text-[#14B8D4]">
                 AI

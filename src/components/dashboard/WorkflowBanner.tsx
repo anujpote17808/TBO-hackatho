@@ -4,7 +4,7 @@ import { WORKFLOW_STEPS } from '../../data/overviewData';
 export function WorkflowBanner() {
   return (
     <section
-      aria-label="TravelIQ Inventory Intelligence Workflow"
+      aria-label="TripMatch AI Inventory Intelligence Workflow"
       className="bg-[#0B1530] text-white rounded-xl px-4 py-3.5 border border-white/10 shadow-sm"
     >
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
@@ -13,7 +13,7 @@ export function WorkflowBanner() {
             How It Works
           </span>
           <span className="font-display font-bold text-xs sm:text-sm text-white">
-            TravelIQ Intelligence Flow:
+            TripMatch Intelligence Flow:
           </span>
         </div>
 

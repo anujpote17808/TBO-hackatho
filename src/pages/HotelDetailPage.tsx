@@ -165,7 +165,7 @@ export function HotelDetailPage() {
               Available Room Offers Across Suppliers
             </h2>
             <p className="text-xs text-[#748198]">
-              TravelIQ AI compares bed type, occupancy, room size, breakfast, refundability, and payment terms — never merging non-equivalent room types.
+              TripMatch AI compares bed type, occupancy, room size, breakfast, refundability, and payment terms — never merging non-equivalent room types.
             </p>
           </div>
         </div>
@@ -290,3 +290,4 @@ export function HotelDetailPage() {
     </div>
   );
 }
+

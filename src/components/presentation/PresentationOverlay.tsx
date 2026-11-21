@@ -103,7 +103,7 @@ export function PresentationOverlay({
   return (
     <div
       role="region"
-      aria-label="TravelIQ AI Hackathon Presentation Mode"
+      aria-label="TripMatch AI Hackathon Presentation Mode"
       className="fixed inset-0 z-50 bg-[#0B1530] text-white flex flex-col"
     >
       {/* Top Bar */}
@@ -114,7 +114,7 @@ export function PresentationOverlay({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-display font-bold text-sm">TravelIQ AI</span>
+              <span className="font-display font-bold text-sm">TripMatch AI</span>
               <span className="text-xs text-[#14B8D4] font-semibold">
                 Slide {slideIndex + 1} / {SLIDE_TITLES.length} — {SLIDE_TITLES[slideIndex]}
               </span>
@@ -171,7 +171,7 @@ export function PresentationOverlay({
                     Slide 01 · Unified Travel Inventory Intelligence
                   </span>
                   <h2 className="text-2xl lg:text-3xl font-display font-extrabold mt-1">
-                    TravelIQ AI — Enterprise Inventory OS
+                    TripMatch AI — Enterprise Inventory OS
                   </h2>
                   <p className="text-sm text-slate-300 mt-1 max-w-2xl">
                     Transform fragmented multi-supplier travel inventory into clean, comparable, intelligently ranked and bookable products.

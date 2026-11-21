@@ -199,7 +199,7 @@ export function RankingPage() {
                     <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
                     <YAxis dataKey="name" type="category" width={92} tick={{ fontSize: 10 }} />
                     <Tooltip />
-                    <Bar dataKey="SmartScore" name="TravelIQ Score" fill="#1677FF" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="SmartScore" name="TripMatch Score" fill="#1677FF" radius={[0, 4, 4, 0]} />
                     <Bar dataKey="PriceOnlyRankScore" name="Price Score" fill="#CBD5E1" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>

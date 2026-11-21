@@ -293,3 +293,4 @@ export function FloatingSearchPanel() {
     </motion.div>
   );
 }
+

@@ -372,7 +372,7 @@ export function runRealMatchingEngine(
       ? `Geographic entity lock confirmed for "${recordA.location}".`
       : `Location mismatch detected ("${recordA.location}" vs "${recordB.location}") — hard guardrail prevents false entity merge.`,
     commercialDiffCount > 0
-      ? `Detected ${commercialDiffCount} material commercial/inclusion difference(s) (price spread ₹${Math.abs(recordA.priceInr - recordB.priceInr).toLocaleString('en-IN')}). TravelIQ groups the shared entity while preserving distinct bookable offers.`
+      ? `Detected ${commercialDiffCount} material commercial/inclusion difference(s) (price spread ₹${Math.abs(recordA.priceInr - recordB.priceInr).toLocaleString('en-IN')}). TripMatch AI groups the shared entity while preserving distinct bookable offers.`
       : `All structured booking attributes align cleanly across suppliers (${attributeScorePct}% parity), supporting canonical equivalence.`,
     `Classified as ${confidenceTier} Confidence under active demo thresholds (High ≥ ${thresholds.high}%, Medium ${thresholds.medium}–${thresholds.high - 1}%).`,
   ];
