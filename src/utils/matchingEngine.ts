@@ -89,10 +89,36 @@ export function normalizeTravelText(raw: string): string {
   return deduped.join(' ');
 }
 
+const COMMERCIAL_MODIFIERS = new Set([
+  'ticket',
+  'guide',
+  'licensed',
+  'private',
+  'transfer',
+  'hotel',
+  'breakfast',
+  'included',
+  'only',
+  'non',
+  'refundable',
+  'free',
+  'cancellation',
+  '24h',
+  '48h',
+  'hour',
+  'hours',
+  'saver',
+  'vip',
+]);
+
 function getCoreWords(text: string): string[] {
   return normalizeTravelText(text)
     .split(' ')
     .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
+}
+
+function getEntityWords(text: string): string[] {
+  return getCoreWords(text).filter((w) => !COMMERCIAL_MODIFIERS.has(w));
 }
 
 function tokenizeWithBigrams(text: string): string[] {
@@ -216,19 +242,29 @@ export function runRealMatchingEngine(
     tokenizeWithBigrams(`${recordB.rawTitle} ${recordB.rawDescription} ${recordB.location}`)
   );
 
-  const titleOverlap = computeWordOverlap(recordA.rawTitle, recordB.rawTitle);
+  // Disentangled entity-core similarity (strips commercial modifiers like breakfast/transfer/non-refundable)
+  const entityWordsA = getEntityWords(recordA.rawTitle);
+  const entityWordsB = getEntityWords(recordB.rawTitle);
+  const entitySetA = new Set(entityWordsA);
+  const entitySetB = new Set(entityWordsB);
+  const entityShared = [...entitySetA].filter((w) => entitySetB.has(w));
+  const entityOverlap =
+    Math.min(entitySetA.size, entitySetB.size) === 0
+      ? 0
+      : entityShared.length / Math.min(entitySetA.size, entitySetB.size);
+  const entityCosine = computeCosineSimilarity(entityWordsA, entityWordsB);
+
   const fullOverlap = computeWordOverlap(
     `${recordA.rawTitle} ${recordA.rawDescription}`,
     `${recordB.rawTitle} ${recordB.rawDescription}`
   );
 
-  // Blend cosine similarity with asymmetric overlap coefficient (handles terse vs rich titles)
   const semanticScore = Math.min(
     1,
-    titleCosine * 0.35 +
-      fullCosine * 0.25 +
-      titleOverlap.overlapCoeff * 0.28 +
-      fullOverlap.overlapCoeff * 0.12
+    entityOverlap * 0.42 +
+      entityCosine * 0.28 +
+      titleCosine * 0.15 +
+      fullCosine * 0.15
   );
 
   const locationCheck = compareAttributePair(
@@ -290,16 +326,16 @@ export function runRealMatchingEngine(
   const cosinePct = Math.round(semanticScore * 100);
   const jaccardPct = Math.round(fullOverlap.jaccard * 100);
 
-  // Entity Resolution Confidence: Location lock + Semantic/Entity overlap + modest attribute reinforcement
+  // Entity Resolution Confidence: Location lock + Entity-core Semantic score + Attribute reinforcement
   const rawConfidence =
     locationCheck.score < 0.5
-      ? Math.round(semanticScore * 35)
+      ? Math.round(semanticScore * 30)
       : Math.round(
           Math.min(
             99,
-            locationCheck.score * 32 +
-              semanticScore * 54 +
-              commercialAttrAvg * 14
+            locationCheck.score * 30 +
+              semanticScore * 55 +
+              commercialAttrAvg * 15
           )
         );
 
