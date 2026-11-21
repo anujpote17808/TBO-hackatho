@@ -33,6 +33,8 @@ const SYNONYM_MAP: Record<string, string> = {
   dawn: 'sunrise',
   morning: 'sunrise',
   taj: 'taj mahal',
+  incl: 'included',
+  w: 'with',
   kingbed: 'king',
   queenbed: 'queen',
   dbl: 'double',
@@ -60,12 +62,14 @@ const STOP_WORDS = new Set([
   'tour',
   'experience',
   'package',
+  'via',
+  'day',
 ]);
 
 export function normalizeTravelText(raw: string): string {
   const cleaned = raw
     .toLowerCase()
-    .replace(/[-_/+,()•|]/g, ' ')
+    .replace(/[-_/+,()•|&]/g, ' ')
     .replace(/[^a-z0-9\s]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
@@ -76,12 +80,23 @@ export function normalizeTravelText(raw: string): string {
     .map((tok) => SYNONYM_MAP[tok] ?? tok)
     .join(' ');
 
-  return expanded.replace(/\s+/g, ' ').trim();
+  // Deduplicate adjacent identical tokens (e.g., "taj mahal mahal" -> "taj mahal")
+  const tokens = expanded.split(' ').filter(Boolean);
+  const deduped: string[] = [];
+  for (const t of tokens) {
+    if (deduped[deduped.length - 1] !== t) deduped.push(t);
+  }
+  return deduped.join(' ');
 }
 
-function tokenize(text: string): string[] {
-  const normalized = normalizeTravelText(text);
-  const words = normalized.split(' ').filter((w) => w.length > 1 && !STOP_WORDS.has(w));
+function getCoreWords(text: string): string[] {
+  return normalizeTravelText(text)
+    .split(' ')
+    .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
+}
+
+function tokenizeWithBigrams(text: string): string[] {
+  const words = getCoreWords(text);
   const bigrams: string[] = [];
   for (let i = 0; i < words.length - 1; i++) {
     bigrams.push(`${words[i]}_${words[i + 1]}`);
@@ -105,8 +120,7 @@ function computeCosineSimilarity(tokensA: string[], tokensB: string[]): number {
   for (const term of vocab) {
     const a = freqA.get(term) ?? 0;
     const b = freqB.get(term) ?? 0;
-    // Slight boost for unigrams representing entities, balanced with bigrams
-    const weight = term.includes('_') ? 1.25 : 1;
+    const weight = term.includes('_') ? 1.15 : 1;
     dot += a * weight * (b * weight);
     magA += (a * weight) ** 2;
     magB += (b * weight) ** 2;
@@ -117,16 +131,8 @@ function computeCosineSimilarity(tokensA: string[], tokensB: string[]): number {
 }
 
 function computeWordOverlap(textA: string, textB: string) {
-  const setA = new Set(
-    normalizeTravelText(textA)
-      .split(' ')
-      .filter((w) => w.length > 1 && !STOP_WORDS.has(w))
-  );
-  const setB = new Set(
-    normalizeTravelText(textB)
-      .split(' ')
-      .filter((w) => w.length > 1 && !STOP_WORDS.has(w))
-  );
+  const setA = new Set(getCoreWords(textA));
+  const setB = new Set(getCoreWords(textB));
 
   const shared: string[] = [];
   const onlyA: string[] = [];
@@ -141,9 +147,12 @@ function computeWordOverlap(textA: string, textB: string) {
   }
 
   const unionSize = setA.size + setB.size - shared.length;
+  const minSize = Math.min(setA.size, setB.size);
   const jaccard = unionSize === 0 ? 0 : shared.length / unionSize;
+  // Szymkiewicz-Simpson overlap coefficient handles short-title vs verbose-title supplier feeds
+  const overlapCoeff = minSize === 0 ? 0 : shared.length / minSize;
 
-  return { shared, onlyA, onlyB, jaccard };
+  return { shared, onlyA, onlyB, jaccard, overlapCoeff };
 }
 
 function compareAttributePair(
@@ -199,18 +208,27 @@ export function runRealMatchingEngine(
   const normalizedDescB = normalizeTravelText(recordB.rawDescription);
 
   const titleCosine = computeCosineSimilarity(
-    tokenize(recordA.rawTitle),
-    tokenize(recordB.rawTitle)
+    tokenizeWithBigrams(recordA.rawTitle),
+    tokenizeWithBigrams(recordB.rawTitle)
   );
-  const descCosine = computeCosineSimilarity(
-    tokenize(`${recordA.rawTitle} ${recordA.rawDescription} ${recordA.location}`),
-    tokenize(`${recordB.rawTitle} ${recordB.rawDescription} ${recordB.location}`)
+  const fullCosine = computeCosineSimilarity(
+    tokenizeWithBigrams(`${recordA.rawTitle} ${recordA.rawDescription} ${recordA.location}`),
+    tokenizeWithBigrams(`${recordB.rawTitle} ${recordB.rawDescription} ${recordB.location}`)
   );
 
-  const semanticCosine = Math.min(1, titleCosine * 0.55 + descCosine * 0.45);
-  const wordOverlap = computeWordOverlap(
+  const titleOverlap = computeWordOverlap(recordA.rawTitle, recordB.rawTitle);
+  const fullOverlap = computeWordOverlap(
     `${recordA.rawTitle} ${recordA.rawDescription}`,
     `${recordB.rawTitle} ${recordB.rawDescription}`
+  );
+
+  // Blend cosine similarity with asymmetric overlap coefficient (handles terse vs rich titles)
+  const semanticScore = Math.min(
+    1,
+    titleCosine * 0.35 +
+      fullCosine * 0.25 +
+      titleOverlap.overlapCoeff * 0.28 +
+      fullOverlap.overlapCoeff * 0.12
   );
 
   const locationCheck = compareAttributePair(
@@ -258,12 +276,7 @@ export function runRealMatchingEngine(
     cancelCheck,
     accessCheck,
   ];
-
   const attributeDiffs = checks.map((c) => c.row);
-
-  // Entity score weights location & title heavily; bookable equivalence weights commercial attributes
-  const entityAlignment =
-    locationCheck.score * 0.45 + semanticCosine * 0.4 + wordOverlap.jaccard * 0.15;
 
   const commercialAttrAvg =
     (durationOrBedCheck.score +
@@ -273,28 +286,24 @@ export function runRealMatchingEngine(
       accessCheck.score) /
     5;
 
-  const priceSpreadRatio =
-    Math.abs(recordA.priceInr - recordB.priceInr) /
-    Math.max(recordA.priceInr, recordB.priceInr, 1);
-
   const attributeScorePct = Math.round(commercialAttrAvg * 100);
-  const cosinePct = Math.round(semanticCosine * 100);
-  const jaccardPct = Math.round(wordOverlap.jaccard * 100);
+  const cosinePct = Math.round(semanticScore * 100);
+  const jaccardPct = Math.round(fullOverlap.jaccard * 100);
 
-  // Compute overall entity match confidence (0 - 99)
+  // Entity Resolution Confidence: Location lock + Semantic/Entity overlap + modest attribute reinforcement
   const rawConfidence =
     locationCheck.score < 0.5
-      ? Math.round((semanticCosine * 0.5 + commercialAttrAvg * 0.25) * 100)
+      ? Math.round(semanticScore * 35)
       : Math.round(
           Math.min(
             99,
-            entityAlignment * 62 +
-              commercialAttrAvg * 28 +
-              (1 - Math.min(priceSpreadRatio, 0.5)) * 10
+            locationCheck.score * 32 +
+              semanticScore * 54 +
+              commercialAttrAvg * 14
           )
         );
 
-  const confidenceScore = Math.max(12, Math.min(99, rawConfidence));
+  const confidenceScore = Math.max(8, Math.min(99, rawConfidence));
 
   let confidenceTier: 'High' | 'Medium' | 'Low' = 'Low';
   if (confidenceScore >= thresholds.high) confidenceTier = 'High';
@@ -309,7 +318,7 @@ export function runRealMatchingEngine(
   ].filter((c) => c.row.status === 'diff').length;
 
   let decision: MatchResult['decision'];
-  if (locationCheck.score < 0.5 || confidenceScore < 55) {
+  if (locationCheck.score < 0.5 || confidenceScore < 50) {
     decision = 'Distinct Products (Do Not Merge)';
   } else if (confidenceScore >= thresholds.high && commercialDiffCount === 0) {
     decision = 'Equivalent Bookable Product';
@@ -322,14 +331,14 @@ export function runRealMatchingEngine(
   }
 
   const explanation: string[] = [
-    `Normalized token cosine similarity is ${cosinePct}% with ${wordOverlap.shared.length} shared canonical tokens (${wordOverlap.shared.slice(0, 6).join(', ') || 'none'}).`,
+    `Blended lexical semantic similarity is ${cosinePct}% (Jaccard ${jaccardPct}%) across ${fullOverlap.shared.length} shared canonical tokens (${fullOverlap.shared.slice(0, 6).join(', ') || 'none'}).`,
     locationCheck.row.status === 'match'
       ? `Geographic entity lock confirmed for "${recordA.location}".`
-      : `Location mismatch detected ("${recordA.location}" vs "${recordB.location}") — prevents false entity merge.`,
+      : `Location mismatch detected ("${recordA.location}" vs "${recordB.location}") — hard guardrail prevents false entity merge.`,
     commercialDiffCount > 0
-      ? `Detected ${commercialDiffCount} material commercial/inclusion difference(s) (price spread ₹${Math.abs(recordA.priceInr - recordB.priceInr).toLocaleString('en-IN')}). TravelIQ groups the shared underlying entity while preserving distinct bookable offers.`
-      : `All structured booking attributes align cleanly across suppliers, supporting canonical equivalence.`,
-    `Classified as ${confidenceTier} Confidence under current demo thresholds (High ≥ ${thresholds.high}%, Medium ${thresholds.medium}–${thresholds.high - 1}%).`,
+      ? `Detected ${commercialDiffCount} material commercial/inclusion difference(s) (price spread ₹${Math.abs(recordA.priceInr - recordB.priceInr).toLocaleString('en-IN')}). TravelIQ groups the shared entity while preserving distinct bookable offers.`
+      : `All structured booking attributes align cleanly across suppliers (${attributeScorePct}% parity), supporting canonical equivalence.`,
+    `Classified as ${confidenceTier} Confidence under active demo thresholds (High ≥ ${thresholds.high}%, Medium ${thresholds.medium}–${thresholds.high - 1}%).`,
   ];
 
   return {
@@ -337,9 +346,9 @@ export function runRealMatchingEngine(
     normalizedTitleB,
     normalizedDescA,
     normalizedDescB,
-    sharedTokens: wordOverlap.shared,
-    distinctTokensA: wordOverlap.onlyA,
-    distinctTokensB: wordOverlap.onlyB,
+    sharedTokens: fullOverlap.shared,
+    distinctTokensA: fullOverlap.onlyA,
+    distinctTokensB: fullOverlap.onlyB,
     cosineSimilarity: cosinePct,
     jaccardSimilarity: jaccardPct,
     attributeScore: attributeScorePct,
@@ -350,4 +359,3 @@ export function runRealMatchingEngine(
     attributeDiffs,
   };
 }
-
