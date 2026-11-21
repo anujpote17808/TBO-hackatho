@@ -13,6 +13,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'motion-vendor': ['framer-motion'],
           'charts-vendor': ['recharts'],
           'icons-vendor': ['lucide-react'],
         },
