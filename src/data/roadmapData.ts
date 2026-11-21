@@ -1,0 +1,132 @@
+import { RoadmapMilestone } from '../types/inventory';
+
+export const ROADMAP_MILESTONES: RoadmapMilestone[] = [
+  {
+    id: 'hr-1-6',
+    window: 'Hours 1–6',
+    title: 'Project Setup & Data Preparation',
+    phase: '48-Hour Hackathon',
+    status: 'Completed',
+    owner: 'Full-Stack & Data',
+    deliverables: [
+      'Initialize React + TypeScript + Tailwind enterprise OS architecture',
+      'Curate synthetic multi-supplier sightseeing & hotel datasets across 5 Indian hubs',
+      'Establish canonical taxonomy schema and photography asset pipeline',
+    ],
+  },
+  {
+    id: 'hr-7-14',
+    window: 'Hours 7–14',
+    title: 'Normalization & Duplicate Detection',
+    phase: '48-Hour Hackathon',
+    status: 'Completed',
+    owner: 'AI / NLP Engineering',
+    deliverables: [
+      'Build travel synonym lexicon (Dlx, BB, RO, Xfer, Cxl, Tkt)',
+      'Implement token & bigram cosine similarity + Jaccard overlap engine',
+      'Design configurable confidence tiers (High ≥ 95%, Medium 75–94%, Low < 75%)',
+    ],
+  },
+  {
+    id: 'hr-15-22',
+    window: 'Hours 15–22',
+    title: 'Sightseeing & Hotel Matching',
+    phase: '48-Hour Hackathon',
+    status: 'Completed',
+    owner: 'AI & Domain Modeling',
+    deliverables: [
+      'Implement Taj Mahal Sunrise & 5 regional sightseeing difference matrices',
+      'Build Grand Palace Agra room equivalence engine preventing false name merges',
+      'Surface transparent attribute-by-attribute match explanations',
+    ],
+  },
+  {
+    id: 'hr-23-30',
+    window: 'Hours 23–30',
+    title: 'Supplier Comparison & Smart Ranking',
+    phase: '48-Hour Hackathon',
+    status: 'Completed',
+    owner: 'Product & Ranking',
+    deliverables: [
+      'Create sortable, filterable multi-supplier matrix with separate value callouts',
+      'Implement proposed 30/25/20/15/10 ranking formula with interactive sliders',
+      'Build before-vs-after ranking impact visualizer',
+    ],
+  },
+  {
+    id: 'hr-31-38',
+    window: 'Hours 31–38',
+    title: 'Enterprise Dashboard Implementation',
+    phase: '48-Hour Hackathon',
+    status: 'Completed',
+    owner: 'UI/UX & Frontend',
+    deliverables: [
+      'Deliver 10 functional modules with unified dark-navy & crisp-white visual language',
+      'Integrate Content Quality monitor, 9-layer Architecture diagram & Business Impact KPIs',
+      'Build 9-slide interactive Presentation Mode with keyboard navigation',
+    ],
+  },
+  {
+    id: 'hr-39-44',
+    window: 'Hours 39–44',
+    title: 'Testing & Optimization',
+    phase: '48-Hour Hackathon',
+    status: 'Active',
+    owner: 'QA & Performance',
+    deliverables: [
+      'End-to-end verification of routes, sliders, filters, matching workbench & dialogs',
+      'Responsive desktop & tablet audit, image fallback checks & TypeScript strict build',
+      'Zero console warnings and production bundle verification',
+    ],
+  },
+  {
+    id: 'hr-45-48',
+    window: 'Hours 45–48',
+    title: 'Final Presentation & Demo',
+    phase: '48-Hour Hackathon',
+    status: 'Planned',
+    owner: 'Team Pitch',
+    deliverables: [
+      'Live judge walkthrough using built-in 9-slide Presentation Mode',
+      'Interactive Q&A showcasing real-time matching and weight sensitivity',
+      'Production deployment verification on GitHub & Vercel',
+    ],
+  },
+  {
+    id: 'fut-1',
+    window: 'Phase 2 · Months 1–2',
+    title: 'Live Supplier API Integrations & Larger Catalogs',
+    phase: 'Post-Hackathon Production',
+    status: 'Planned',
+    owner: 'Platform Engineering',
+    deliverables: [
+      'Connect live TBO hotel, bedbank, and sightseeing XML/JSON feeds via FastAPI connectors',
+      'Scale ingestion pipelines to millions of global SKUs in PostgreSQL & OpenSearch',
+    ],
+  },
+  {
+    id: 'fut-2',
+    window: 'Phase 3 · Months 3–4',
+    title: 'Production AI Evaluation & Dense Embeddings',
+    phase: 'Post-Hackathon Production',
+    status: 'Planned',
+    owner: 'Applied ML Team',
+    deliverables: [
+      'Deploy domain fine-tuned Sentence Transformers + human-in-the-loop gold evaluation sets',
+      'Track real Precision, Recall, F1 & room equivalence accuracy per supplier feed',
+    ],
+  },
+  {
+    id: 'fut-3',
+    window: 'Phase 4 · Months 5–6',
+    title: 'Advanced Recommendations & Continuous Ranking Optimization',
+    phase: 'Post-Hackathon Production',
+    status: 'Planned',
+    owner: 'Ranking & Personalization',
+    deliverables: [
+      'Learning-to-Rank (LTR) models trained on agent click, quote & booking conversion logs',
+      'Contextual B2B agency personalization and online A/B experimentation',
+    ],
+  },
+];
+
